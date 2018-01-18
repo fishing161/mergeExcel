@@ -1,19 +1,36 @@
 import xlwt
 import xlrd 
 import os
+import configparser
 #在哪里搜索多个表格  
-filelocation="E:\\医生"  
+filelocation=""  
 #当前文件夹下搜索的文件名后缀  
-filedestination="E:\\"  
+filedestination=""  
 #合并后的表格命名为file  
-wfile="test"  
+wfile=""  
 # 表头与sheet名关联关系
 biao = {}
 # 当前新sheet编号
+
+
+while filedestination == '' or filelocation == '' or wfile == '':
+    print("请修改当前目录下的配置文件,如有中文，需保存为utf-8格式:")
+    print("")
+    print("")
+    print("filelocation:源表格所在目录")
+    print("filedestination:汇总后表格所在目录")
+    print("wfile:目标文件名")
+    # os.system('pause')
+    config = configparser.ConfigParser()
+    config.read("config.ini","utf-8")
+    filelocation = config.get("config","filelocation")
+    filedestination = config.get("config","filedestination")
+    wfile = config.get("config","wfile")
+    print(wfile)
+
 sheetIndex = 0
 #遍历目标目录下所有文件 
 writeFile=xlwt.Workbook()
-
 for filename in os.listdir(filelocation):
     if filename.split(".")[-1] != "xls" and filename.split(".")[-1] != "xlsx":
         continue
@@ -64,4 +81,4 @@ for filename in os.listdir(filelocation):
     pass
 
 print("操作完成")  
-  
+# os.system('pause')
